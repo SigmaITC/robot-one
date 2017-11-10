@@ -36,7 +36,7 @@ Make sure your RPi is compatible with the project:
 If you connect to RPi through a new WiFi network, edit the configuration of wpa_supplicant.conf and, together with an empty file named "ssh", add to the root directory on your RPi.
 
 To connect to it you need to install bonjour print service (https://support.apple.com/downloads/bonjour_for_windows).
-Ntes use ssh <username>@pie.local, and enter the password you set on the robot
+Then use ssh <username>@pie.local, and enter the password you set on the robot
 
 Robotic arm hardware setup
 ---------------------------
@@ -51,17 +51,19 @@ Usage
 ------------------------
 Run MeArm.py and follow the on-screen instructions. 
 
-Rember that when you run it it will instanly go to it's start positon(which most likily is not the same as you have it now), if it's blocked in any way it can break!
+Rember that when you run it it will instanly go to it's start positon(which most likily is not the same as you have it now), if it's blocked in any way it may break!
 
-Other notes
------------
-Never, ever, move things by hand. This will damage the servos!!
+Never move parts by hand, this will damage the servos!
 
 
 Changing parts
 -------------
-Servos: Unfortantly you will most likily need to disasemble large part of the robot while doing this. make sure the new servos is a pretty good type (the blue). if you use theese you don't need the screews while for the blue you need to because the plastic arms is sligthly to thick. 
-Before assembly, use the code to set an angle , perhaps in center. Then assembly it in approx center(or whatever you choosed) position. Then open init.py, set xxxInit to this same angle. start the code, and change the xxxMin and xxxMax accordingly, you should never make the servos trying to get to a position that's not reachable, this will break the servos.
+Servos: Unfortantly you will most likily need to disasemble large part of the robot while doing this. make sure the new servos is a pretty good type (the blue). If you use theese you don't need the 
+
+screews while for some other you need to because the plastic arms is sligthly to thick. 
+Before assembly, use some code to set an angle on the servo, perhaps in center. Then assembly it in approx center(or whatever you choosed) position. Then open init.py, set xxxInit to this same 
+
+angle. start the code, and change the xxxMin and xxxMax accordingly, you should never make the servos trying to get to a position that's not reachable, this will break the servos.
 
 
 
@@ -70,17 +72,24 @@ Missing features, hopes, ideas and random thoughts
     The automatic grabbing module should be integrated with the rest of the automatic mode.
     Measuring dimensions of objects to estimate their grabbability(?).
     Wheels. We need wheels. Got them! just need to assemble. 
-    Attacing a camera instead of the ultrasonic module may improve the detection capability greatly. Anoter idea is to have two ultrasonic sensors for 3D vision. (well, it's really hard to actually get something useful from these sonars, you probably need to do some hacking..
-also remeber, if using 2 sonars, you can¨t use them "at the same time" both recieve signal from eachother. but one can alter to use left/rigth approx every 30-40 ms (Never ever go too short inbetween, it can couse lots of trouble(I learnt that the hard way)
+    Attacing a camera instead of the ultrasonic module may improve the detection capability greatly. Another idea is to have two ultrasonic sensors for 3D vision. (well, it's really hard to 
+
+actually get something 3Dish useful from these sonars.
+also remeber, if using 2 sonars, you canÂ¨t use them "at the same time" both recieve signal from eachother. but one can switch left/right approx every 30-40 ms (Never ever go too short inbetween, it 
+
+can couse lots of trouble.
     Phase 2: object recognition and deep learning. Phase 3: human extinction.
 
 
-Upgrade to rasberry pi 3, add a camera module (cheap on ebay) and use deeplearning to see the world.
-A case to get more cooler stuff (read expensive) could be to build the robot to be used at career fairs.
-For example a more sturdy structure etc. or maybe even nvidia jetson tx2! 
+Upgrade to rasberry pi 3, add a camera module and use deeplearning (rasberry pi zero is not good enough to do this). or maybe even nvidia jetson tx2! 
+A case to get more cooler stuff could be to build the robot to be used at career fairs.
+The current structure is pretty weak, so a better structure etc would be great.
 A battery pack should also be needed so we dont have to keep it plugged in, the easiest should be
-to just get any powerbank with atleast 2 conectors, remember to cheack the amps for the output, currently
-it's kinda on the edge with my power adaptor, and it migth be the cause of it somethimes dropping the wifi?
+to just get a powerbank with atleast 2 ports, remember to cheack the amps for the output, currently
+it's kinda on the edge with my power adaptor. 
+
+
+Currently we have a problem that the wife randomly drops, maybe power issue?
 
 
 
