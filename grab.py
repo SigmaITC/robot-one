@@ -69,7 +69,7 @@ gripMax=110
 
 # Initial position of all servos at the beginning of operation
 rotVal = 90 # 90 degress = center
-tiltVal = 100
+tiltVal = 55
 liftVal = 0
 gripVal = 90
 pz.setOutput (rot, rotVal)
@@ -87,11 +87,11 @@ hcsr04.init()
 try:
     distance = int(hcsr04.getDistance())
     print "object "+str(distance)+" far"
-    while (distance>gripDistance) and (tiltVal>tiltMin):
+    while (distance>gripDistance) and (tiltVal<tiltMax):
         distance =int(hcsr04.getDistance())         # distance in cm
         print "object "+str(distance-gripDistance)+" too far"
         
-        tiltVal = max (tiltMin, tiltVal - 5)    # moves closer, but within the operational limit
+        tiltVal = min (tiltMax, tiltVal + 5)    # moves closer, but within the operational limit
         
         time.sleep(.5)      # gives you time to evacuate, can have zero
         pz.setOutput (rot, rotVal)
