@@ -49,7 +49,7 @@ Your robot is controlled by 4 microservos, connected to corresponding GPIO 0,1,2
 
 Usage
 ------------------------
-Run MeArm.py and follow the on-screen instructions. 
+Run robotArm.py and follow the on-screen instructions. 
 
 Rember that when you run it it will instanly go to it's start positon(which most likily is not the same as you have it now), if it's blocked in any way it may break!
 
