@@ -8,7 +8,7 @@ ultrasonicInitialized = False;
 
 channels=[rotChannel,tiltChannel,liftChannel,gripChannel]
 limMax=[rotMax, tiltMax, liftMax, gripMax]
-limMin=[rotMin, rotMin, liftMin, gripMin]
+limMin=[rotMin, tiltMin, liftMin, gripMin]
 positions=[rotInit,tiltInit,liftInit,gripInit]      # Position variable that the program operates on
 
 #=====================================================================
