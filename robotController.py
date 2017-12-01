@@ -52,10 +52,10 @@ def shutdown():
 #======================================================================
 # Resets robot arm to default location
 def resetPosition():
-    smoothMotion(rotChannel, rotInit)
-    smoothMotion(tiltChannel, tiltInit)
-    smoothMotion(liftChannel, liftInit)
-    smoothMotion(gripChannel, gripInit)
+    _smoothMotion(rotChannel, rotInit)
+    _smoothMotion(tiltChannel, tiltInit)
+    _smoothMotion(liftChannel, liftInit)
+    _smoothMotion(gripChannel, gripInit)
 #=====================================================================
 
 #=========================================================================================
@@ -73,7 +73,7 @@ def texasRanger():
 #======================================================================
 # A function to make roboArm operation movement smoother, please use for all servo operations
 
-def smoothMotion(channel,stop):
+def _smoothMotion(channel,stop):
     if (stop>limMax[channel]) or (stop<limMin[channel]):
         print ("Operational range exceeded")
         return 0
@@ -91,49 +91,49 @@ def smoothMotion(channel,stop):
 #=====================================================================
 # Increase/decrease rotation number of degrees
 def rotate(offset):
-    smoothMotion(rotChannel, positions[rotChannel] + offset)
+    _smoothMotion(rotChannel, positions[rotChannel] + offset)
 #====================================================================
 
 #=====================================================================
 # Increase/decrease tilt number of degrees
 def tilt(offset):
-    smoothMotion(tiltChannel, positions[tiltChannel] + offset)
+    _smoothMotion(tiltChannel, positions[tiltChannel] + offset)
 #====================================================================
 
 #=====================================================================
 # Increase/decrease lift number of degrees
 def lift(offset):
-    smoothMotion(liftChannel, positions[liftChannel] + offset)
+    _smoothMotion(liftChannel, positions[liftChannel] + offset)
 #====================================================================
 
 #=====================================================================
 # Increase/decrease grip number of degrees
 def grip(offset):
-    smoothMotion(gripChannel, positions[gripChannel] + offset)
+    _smoothMotion(gripChannel, positions[gripChannel] + offset)
 #====================================================================
 
 #=====================================================================
 # Sets rotation to number of degrees
 def setRotation(angle):
-    smoothMotion(rotChannel, angle)
+    _smoothMotion(rotChannel, angle)
 #====================================================================
 
 #=====================================================================
 # Sets tilt to number of degrees
 def setTilt(angle):
-    smoothMotion(tiltChannel, angle)
+    _smoothMotion(tiltChannel, angle)
 #====================================================================
 
 #=====================================================================
 # Sets lift to number of degrees
 def setLift(angle):
-    smoothMotion(liftChannel, angle)
+    _smoothMotion(liftChannel, angle)
 #====================================================================
 
 #=====================================================================
 # Sets grip to number of degrees
 def setGrip(angle):
-    smoothMotion(gripChannel, angle)
+    _smoothMotion(gripChannel, angle)
 #====================================================================
 
 #=====================================================================
