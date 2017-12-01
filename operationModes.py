@@ -10,7 +10,7 @@ from keyboardio import *   # Keyboard reader
 from robotController import * # Hardware controller
 
 #=================================================================
-# Main loop for the manual operation via keayboard: arrows or WASD, G/H for the grip
+# Main loop for the manual operation via keyboard
 def manualMode():
 
     print("Test the servos by using the following controls:")
@@ -51,7 +51,7 @@ def manualMode():
 
 #==============================================================================
 # Identifies objects close by (20cm) and their coordinates within the grabbing range (10cm) 
-# NEEDED: add grabbing
+# TODO: add grabbing
 def automaticMode():
 
     # Initialization : moves the robot to the rightmost position
