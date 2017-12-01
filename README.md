@@ -66,6 +66,7 @@ Before assembly, use some code to set an angle on the servo, perhaps in center. 
 
 
 # Missing features, hopes, ideas and random thoughts
+* Lift and Tilt min and max values depends on the current values of Lift and Tilt. Method could be added to calculate dynamic min and max values
 * The automatic grabbing module should be integrated with the rest of the automatic mode.
 * Measuring dimensions of objects to estimate their grabbability(?).
 * Wheels. We need wheels. Got them! just need to assemble.
