@@ -26,20 +26,28 @@ def manualMode():
         keyp = readkey()
         if keyp == 's' or ord(keyp) == 17:
             tilt(-manualSpeed)
+            print('Backward: ',getTilt())
         elif keyp == 'w' or ord(keyp) == 16:
             tilt(manualSpeed)
+            print('Forward: ',getTilt())
         elif keyp == 'd' or ord(keyp) == 18:
             rotate(-manualSpeed)
+            print('Right: ',getRotation())
         elif keyp == 'a' or ord(keyp) == 19:
             rotate(manualSpeed)
+            print('Left: ',getRotation())
         elif keyp == 'q':
             lift(-manualSpeed)
+            print('Up: ',getLift())
         elif keyp == 'e':
             lift(manualSpeed)
+            print('Down: ',getLift())
         elif keyp == 'g':
             grip(-manualSpeed)
+            print('Close: ',getGrip())
         elif keyp == 'h':
             grip(manualSpeed)
+            print('Open: ',getGrip())
         elif keyp == ' ':       # 'space' resets to the initial position
             resetPosition()
         elif ord(keyp) == 3:
