@@ -10,17 +10,17 @@ gripChannel = 3 # head servo, Opens/Closes the grip
 rotMin=0 
 rotMax=180
 
-tiltMax=115
 tiltMin=55
+tiltMax=140
 
-liftMax=65
 liftMin=0
+liftMax=50
 
 gripMin=0
 gripMax=110
 
 # Initial position of all servos before operation start
 rotInit = 90    # 90 degrees = center of servo operation range.
-tiltInit = 105
+tiltInit = 70
 liftInit = 20
 gripInit = 90
