@@ -84,7 +84,7 @@ def automaticMode():
             if (distance<10) and (flagClose==0):
                 print "A target within range detected"
                 flagClose=1
-                targetPos.append(positions[:])
+                targetPos.append([getRotation(),getTilt(),getLift(),getGrip()])
             elif (distance<=20) and (flagFar==0):
                 print "A target out of range detected"
                 flagFar=1
