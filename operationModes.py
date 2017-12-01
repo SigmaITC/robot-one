@@ -74,9 +74,10 @@ def automaticMode():
     increment=15    # rotation and lift position increment for scanning
     
     liftRange=range(liftMin,liftMax,increment)  # scanning range : lifting
+    rotRange=range(rotMin,rotMax,increment)
     
-    for rotPos in range(rotMin,rotMax,increment): # goes through the rotation range
-        for liftPos in liftRange:                 # goes through the lifting range
+    for liftPos in liftRange: # goes through the lifting range
+        for rotPos in rotRange: # goes through the rotation range
         
             distance=texasRanger()
             print distance
@@ -91,11 +92,11 @@ def automaticMode():
             elif (distance>20):
                 flagFar=0
                 flagClose=0
-            setLift(liftPos)
+            setRotation(rotPos)
             time.sleep(.02)
           
-        setRotation(rotPos)
-        liftRange=liftRange[::-1]      # reverse scanning direction for lift, makes the scanning continuous
+        setLift(liftPos)
+        rotRange=rotRange[::-1]      # reverse scanning direction for rotation, makes the scanning continuous
     print "Initialization finished"
     
     #---- eliminate false readings------------
