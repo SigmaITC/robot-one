@@ -3,8 +3,6 @@
 
 import piconzero as pz, time    # get the servo module
 
-import hcsr04       # get the ultrasonic module
-
 from init import *   # hardware configuration
 from keyboardio import *   # Keyboard reader
 from robotController import * # Hardware controller
