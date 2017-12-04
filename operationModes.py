@@ -61,7 +61,7 @@ def automaticMode():
 
     # Initialization : moves the robot to the rightmost position
     initUltrasonic()
-    print "Initialization of target practice"
+    print "Initializating scan..."
     setRotation(rotMin)
     setTilt(tiltMin)
     setLift(liftMax)
@@ -80,6 +80,7 @@ def automaticMode():
     liftRange=range(liftMax,liftMin,-increment)  # scanning range : lifting
     rotRange=range(rotMin,rotMax,increment)
     
+    print "Scanning..."
     for liftPos in liftRange: # goes through the lifting range
         setLift(liftPos)
         for rotPos in rotRange: # goes through the rotation range
@@ -100,12 +101,11 @@ def automaticMode():
             setRotation(rotPos)
             time.sleep(.02)
         rotRange=rotRange[::-1]      # reverse scanning direction for rotation, makes the scanning continuous
-    print "Initialization finished"
+    print "Scan finished."
+    print " "
     
     objects = generateGrabSuggestions(targetPos, increment, increment)
     
-    print targetPos
-    print objects
     print "Number of targets within reach: "+str(len(objects))    
     print " "
     print "Press a number between 1 and "+str(len(objects))+" to grab target"
@@ -113,6 +113,7 @@ def automaticMode():
     while True:         
         keyp = readkey()
         if keyp >= '1' and keyp <= str(len(objects)):
+            print "Grabbing target " + keyp
             setRotation(objects[int(keyp) - 1][0])
             setLift(objects[int(keyp) - 1][1])
             bestRotation=findClosest()
@@ -120,7 +121,7 @@ def automaticMode():
             grab()
             return 0
         else:
-            print "Not a number between 1 and "+str(len(objects))
+            print "That was not a number between 1 and "+str(len(objects))
     
     return 0
 #==============================================================================
@@ -137,7 +138,6 @@ def grab():
     print "object "+str(distance)+" far"
     while (distance>gripDistance) and (tiltVal<tiltMax):
         distance =texasRanger()        # distance in cm
-        print "object "+str(distance-gripDistance)+" too far"
         
         tiltVal = min (tiltMax, tiltVal + tiltIncrease)    # moves closer, but within the operational limit
         
