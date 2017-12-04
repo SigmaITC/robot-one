@@ -10,6 +10,7 @@ channels=[rotChannel,tiltChannel,liftChannel,gripChannel]
 limMax=[rotMax, tiltMax, liftMax, gripMax]
 limMin=[rotMin, tiltMin, liftMin, gripMin]
 positions=[rotInit,tiltInit,liftInit,gripInit]      # Position variable that the program operates on
+speeds=[rotSpeedInit,tiltSpeedInit,liftSpeedInit,gripSpeedInit]
 
 #=====================================================================
 # Initializes the robot arm to it's start position
@@ -59,80 +60,83 @@ def resetPosition():
 #=====================================================================
 
 #=========================================================================================
-# Determines range to the nearest object, taking the minimal value of several measurements
+# Determines range to the nearest object, taking the mean value of several measurements
 def texasRanger():
-    a=0     # distance sum dummy
     i=0     # measurement counter
-    imax=10 # total measurement number
+    imax=5 # total measurement number
+    distances=[]
     while i<imax:
-        a+=hcsr04.getDistance()
+        distances.append(hcsr04.getDistance())
+        time.sleep(0.05) # Sleep needed to allow pings from previous measurements to dissipate
         i+=1
-    return a/imax
+    distances.sort()
+    return distances[2]
 #=========================================================================================
 
 #======================================================================
 # A function to make roboArm operation movement smoother, please use for all servo operations
+# Will return False if angle exceeds maximum range or True when the servo has been moved
 def _smoothMotion(channel,stop):
     if (stop>limMax[channel]) or (stop<limMin[channel]):
         print ("Operational range exceeded")
-        return 0
+        return False
     while positions[channel]>stop:
         positions[channel]-=1
         pz.setOutput (channel, positions[channel])
-        time.sleep(0.02)        # time.sleep(...) prevents rapid rotation
+        time.sleep(speeds[channel])        # time.sleep(...) prevents rapid rotation
     while positions[channel]<stop:
         positions[channel]+=1
         pz.setOutput (channel, positions[channel])
-        time.sleep(0.02)
-    return 0
+        time.sleep(speeds[channel])
+    return True
 #=====================================================================
 
 #=====================================================================
 # Increase/decrease rotation number of degrees
 def rotate(offset):
-    _smoothMotion(rotChannel, positions[rotChannel] + offset)
+    return _smoothMotion(rotChannel, positions[rotChannel] + offset)
 #=====================================================================
 
 #=====================================================================
 # Increase/decrease tilt number of degrees
 def tilt(offset):
-    _smoothMotion(tiltChannel, positions[tiltChannel] + offset)
+    return _smoothMotion(tiltChannel, positions[tiltChannel] + offset)
 #=====================================================================
 
 #=====================================================================
 # Increase/decrease lift number of degrees
 def lift(offset):
-    _smoothMotion(liftChannel, positions[liftChannel] + offset)
+    return _smoothMotion(liftChannel, positions[liftChannel] + offset)
 #=====================================================================
 
 #=====================================================================
 # Increase/decrease grip number of degrees
 def grip(offset):
-    _smoothMotion(gripChannel, positions[gripChannel] + offset)
+    return _smoothMotion(gripChannel, positions[gripChannel] + offset)
 #=====================================================================
 
 #=====================================================================
 # Sets rotation to number of degrees
 def setRotation(angle):
-    _smoothMotion(rotChannel, angle)
+    return _smoothMotion(rotChannel, angle)
 #=====================================================================
 
 #=====================================================================
 # Sets tilt to number of degrees
 def setTilt(angle):
-    _smoothMotion(tiltChannel, angle)
+    return _smoothMotion(tiltChannel, angle)
 #=====================================================================
 
 #=====================================================================
 # Sets lift to number of degrees
 def setLift(angle):
-    _smoothMotion(liftChannel, angle)
+    return _smoothMotion(liftChannel, angle)
 #=====================================================================
 
 #=====================================================================
 # Sets grip to number of degrees
 def setGrip(angle):
-    _smoothMotion(gripChannel, angle)
+    return _smoothMotion(gripChannel, angle)
 #=====================================================================
 
 #=====================================================================
@@ -157,5 +161,29 @@ def getLift():
 # Gets grip to number of degrees
 def getGrip():
     return positions[gripChannel]
+#=====================================================================
+
+#=====================================================================
+# Sets rotation to number of degrees
+def setRotationSpeed(speed):
+    speeds[rotChannel]=speed
+#=====================================================================
+
+#=====================================================================
+# Sets tilt to number of degrees
+def setTiltSpeed(speed):
+    speeds[tiltChannel]=speed
+#=====================================================================
+
+#=====================================================================
+# Sets lift to number of degrees
+def setLiftSpeed(speed):
+    speeds[liftChannel]=speed
+#=====================================================================
+
+#=====================================================================
+# Sets grip to number of degrees
+def setGripSpeed(speed):
+    speeds[gripChannel]=speed
 #=====================================================================
 

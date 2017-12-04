@@ -14,7 +14,7 @@ tiltMin=55
 tiltMax=140
 
 liftMin=0
-liftMax=50
+liftMax=45
 
 gripMin=0
 gripMax=110
@@ -24,3 +24,8 @@ rotInit = 90    # 90 degrees = center of servo operation range.
 tiltInit = 70
 liftInit = 20
 gripInit = gripMin
+
+rotSpeedInit = 0.02
+tiltSpeedInit = 0.02
+liftSpeedInit = 0.02
+gripSpeedInit = 0.02
