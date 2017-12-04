@@ -57,6 +57,11 @@ Rember that when you run it it will instanly go to it's start positon (which mos
 
 Never move parts by hand, this will damage the servos!
 
+The grip does not have a spring or sensor to detect if it has grabbed something, so make sure to configure grip angle to fit the object you're trying to grab.
+
+# HC-SR04 limitations and grabbability
+According to HC-SR04 specs it can detect objects between 40 m and 2 cm from the sensor. However, when the object becomes too thin it seems it will not register reliably. The robot grip on the other hand cannot grab things that are too thick. So in order to have reliable grabbing an object is needed that is 2 - 3 cm wide, at least 10 cm tall, and preferrably soft in order to be easier to grab and be kinder to the grabbing servo. A styrofoam block has been used fairly sucessfully for this purpose.
+
 
 # Changing parts
 Servos: Unfortantly you will most likily need to disasemble large part of the robot while doing this. Make sure the new servos is a pretty good type (the blue). If you use theese you don't need the screws while for some other you need to because the plastic arms is sligthly to thick. 
