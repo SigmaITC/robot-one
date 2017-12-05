@@ -135,7 +135,6 @@ def grab():
     tiltVal = getTilt()
     tiltIncrease = 5
 
-    print "object "+str(distance)+" far"
     while (distance>gripDistance) and (tiltVal<tiltMax):
         distance =texasRanger()        # distance in cm
         
@@ -217,11 +216,11 @@ def generateGrabSuggestions(positions, rotationRes, tiltRes):
     groups = []
     positions = sorted(positions)
     groups.append([
-        positions[0][0], # Minimum Rotation
-        positions[0][0], # Maximum Rotation
-        positions[0][1], # Minimum Tilt
-        positions[0][1], # Maximum Tilt
-        False])          # Any point within range
+        positions[0][0],  # Minimum Rotation
+        positions[0][0],  # Maximum Rotation
+        positions[0][1],  # Minimum Tilt
+        positions[0][1],  # Maximum Tilt
+        positions[0][2]]) # At least one point in group within range
 
     # ------ Make groups from positions ------
     groupId = 0
@@ -238,7 +237,12 @@ def generateGrabSuggestions(positions, rotationRes, tiltRes):
             groups[groupId][4] = groups[groupId][4] | positions[ind][2] # Set in range
         else:
             # New group
-            groups.append([positions[ind][0], positions[ind][0], positions[ind][1], positions[ind][1]])
+            groups.append([
+                positions[ind][0],  # Minimum Rotation
+                positions[ind][0],  # Maximum Rotation
+                positions[ind][1],  # Minimum Tilt
+                positions[ind][1],  # Maximum Tilt
+                positions[ind][2]]) # At least one point in group within range
             groupId+=1
         ind+=1
     # ----------------------------------------
