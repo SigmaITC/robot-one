@@ -70,11 +70,7 @@ def automaticMode():
     
     targetPos=[]    # Keeps track of detected target locations (robot arm position)
 
-    
-    # scanning
-    flagClose = 0   # a "click", flips to 1 when a target within grabbing distance (10 cm) is detected
-    flagFar = 0     # a "click", flips to 1 if a target within 20 cm is detected
-    
+    # scanning    
     increment=10    # rotation and lift position increment for scanning
     
     liftRange=range(liftMax,liftMin,-increment)  # scanning range : lifting
@@ -87,41 +83,45 @@ def automaticMode():
         
             distance=texasRanger()
             
-            if (distance<10) and (flagClose==0):
+            if (distance<10):
                 print "A target within range detected"
-                flagClose=1
-                targetPos.append((getRotation(),getLift()))
-            elif (distance<=20) and (flagFar==0):
+                targetPos.append((
+                    getRotation(), 
+                    getLift(),
+                    True)) # Within range
+            elif (distance<=20):
                 print "A target out of range detected"
-                targetPos.append((getRotation(),getLift()))
-                flagFar=1
-            elif (distance>20):
-                flagFar=0
-                flagClose=0
+                targetPos.append((
+                    getRotation(),
+                    getLift(),
+                    False)) # Out of range
             setRotation(rotPos)
             time.sleep(.02)
         rotRange=rotRange[::-1]      # reverse scanning direction for rotation, makes the scanning continuous
     print "Scan finished."
     print " "
     
-    objects = generateGrabSuggestions(targetPos, increment, increment)
-    
-    print "Number of targets within reach: "+str(len(objects))    
-    print " "
-    print "Press a number between 1 and "+str(len(objects))+" to grab target"
+    suggestions = generateGrabSuggestions(targetPos, increment, increment)
 
-    while True:         
-        keyp = readkey()
-        if keyp >= '1' and keyp <= str(len(objects)):
-            print "Grabbing target " + keyp
-            setRotation(objects[int(keyp) - 1][0])
-            setLift(objects[int(keyp) - 1][1])
-            bestRotation=findClosest()
-            setRotation(bestRotation)
-            grab()
-            return 0
-        else:
-            print "That was not a number between 1 and "+str(len(objects))
+    if len(suggestions) == 0:
+        print "No objects found."
+    else:
+        print "Number of targets within reach: "+str(len(suggestions))    
+        print " "
+        print "Press a number between 1 and "+str(len(suggestions))+" to grab target"
+
+        while True:         
+            keyp = readkey()
+            if keyp >= '1' and keyp <= str(len(suggestions)):
+                print "Grabbing target " + keyp
+                setRotation(suggestions[int(keyp) - 1][0])
+                setLift(suggestions[int(keyp) - 1][1])
+                bestRotation=findClosest()
+                setRotation(bestRotation)
+                grab()
+                return 0
+            else:
+                print "That was not a number between 1 and "+str(len(objects))
     
     return 0
 #==============================================================================
@@ -211,34 +211,50 @@ def findClosest():
 # Returns array of (suggestedTilt, suggestedRotation)
 # TODO: Move function somewhere else
 def generateGrabSuggestions(positions, rotationRes, tiltRes):
-    groups = [] # Structure: [minRotation, maxRotation, minTilt, maxTilt]
-    if len(positions)>1:
-        positions = sorted(positions)
-        groups.append([positions[0][0], positions[0][0], positions[0][1], positions[0][1]])
-        groupId = 0
-        ind = 1
-        while ind < len(positions):
-            if positions[ind][0] == groups[groupId][1]:
-                groups[groupId][2] = min(groups[groupId][2], positions[ind][1]) # Set minTilt
-                groups[groupId][3] = max(groups[groupId][3], positions[ind][1]) # Set maxTilt
-            elif positions[ind][0] == (groups[groupId][1] + rotationRes):
-                groups[groupId][1] = positions[ind][0] # Set maxRotation
-                groups[groupId][2] = min(groups[groupId][2], positions[ind][1]) # Set minTilt
-                groups[groupId][3] = max(groups[groupId][3], positions[ind][1]) # Set maxTilt
-            elif positions[ind][0] > (groups[groupId][1] + rotationRes):
-                # New group
-                groups.append([positions[ind][0], positions[ind][0], positions[ind][1], positions[ind][1]])
-                groupId+=1
-            else:
-                print "What?"
-            ind+=1
+    if len(positions) == 0:
+        return []
 
+    groups = []
+    positions = sorted(positions)
+    groups.append([
+        positions[0][0], # Minimum Rotation
+        positions[0][0], # Maximum Rotation
+        positions[0][1], # Minimum Tilt
+        positions[0][1], # Maximum Tilt
+        False])          # Any point within range
+
+    # ------ Make groups from positions ------
+    groupId = 0
+    ind = 1
+    while ind < len(positions):
+        if positions[ind][0] == groups[groupId][1]:
+            groups[groupId][2] = min(groups[groupId][2], positions[ind][1]) # Set minTilt
+            groups[groupId][3] = max(groups[groupId][3], positions[ind][1]) # Set maxTilt
+            groups[groupId][4] = groups[groupId][4] | positions[ind][2] # Set in range
+        elif positions[ind][0] == (groups[groupId][1] + rotationRes):
+            groups[groupId][1] = positions[ind][0] # Set maxRotation
+            groups[groupId][2] = min(groups[groupId][2], positions[ind][1]) # Set minTilt
+            groups[groupId][3] = max(groups[groupId][3], positions[ind][1]) # Set maxTilt
+            groups[groupId][4] = groups[groupId][4] | positions[ind][2] # Set in range
+        else:
+            # New group
+            groups.append([positions[ind][0], positions[ind][0], positions[ind][1], positions[ind][1]])
+            groupId+=1
+        ind+=1
+    # ----------------------------------------
+
+    # ----- Find suggestions from groups -----
     returnArray = []
     ind = 0
     while ind < len(groups):
-        # Suggested rotation and tilt is in the middle of min and max values
-        returnArray.append([(groups[ind][0] + groups[ind][1])/2, (groups[ind][2] + groups[ind][3])/2])
+        # If any point of group is in range
+        if groups[ind][4]:
+            # Suggested rotation and tilt is in the middle of min and max values
+            returnArray.append([
+                (groups[ind][0] + groups[ind][1])/2, 
+                (groups[ind][2] + groups[ind][3])/2])
         ind+=1
+    # ----------------------------------------
 
     return returnArray
 #==============================================================================
