@@ -6,13 +6,14 @@ The project helps to setup and use MeArm v1.0 robot controlled via Raspberry Pi 
 # Included files
 | File                | Description |
 | :------------------ | :---------- |
-| ReadMe.md	          | You are reading it right now. Busted! |
+| README.md	          | You are reading it right now. Busted! |
 | init.py             | Contains operational angles of RobotArm limited by the hardware setup. |
 | robotArm.py         | Main project file. Run it to get your robotic arm swinging. |
 | operationModes.py   | Contains modules for manual and automatic operation of RobotArm. |
 | grab.py             | A stand-alone grabbing module for the ultrasonic sensor |
 | robotController.py  | The robot controlling interface |
 | keyboardio.py       | Contains functions for keyboard I/O |
+| motorTest           | Simple test for driving the wheels |
 | wpa_supplicant.conf | Local WiFi info. DO NOT SHARE. |
 | *piconzero.py*      | External file commited for simplicity |
 | *hcsr04.py*         | External file commited for simplicity |
@@ -23,6 +24,7 @@ The project helps to setup and use MeArm v1.0 robot controlled via Raspberry Pi 
 * It can rotate and grab things in the manual mode, controlled via keyboard.
 * It can detect things via an ultrasonic sensor in the automatic mode.
 * It can grab things, watch your back!
+* It can drive around, noisily.
 
 
 # Installation
@@ -43,12 +45,13 @@ Sometimes the connection to the pi can drop, and it is no longer possible to con
 
 
 # Robotic arm hardware setup
-Your robot is controlled by 4 microservos, connected to corresponding GPIO 0,1,2 and 3 logic pins on PiconZero controller:
+Your robot arm is controlled by 4 microservos, connected to corresponding GPIO 0,1,2 and 3 logic pins on PiconZero controller:
 * 0 = base servo, rotates the arm Left/Right
 * 1 = left servo, moves the arm Forward/Backward
 * 2 = right servo, moves the arm Up/Down
 * 3 = head servo, Opens/Closes the grip
 
+There are also two wheels controlled by two motors, connected to the Motor A and Motor B pins on the PiconZero.
 
 # Usage
 Run robotArm.py and follow the on-screen instructions. 
@@ -60,7 +63,7 @@ Never move parts by hand, this will damage the servos!
 The grip does not have a spring or sensor to detect if it has grabbed something, so make sure to configure grip angle to fit the object you're trying to grab.
 
 # HC-SR04 limitations and grabbability
-According to HC-SR04 specs it can detect objects between 40 m and 2 cm from the sensor. However, when the object becomes too thin it seems it will not register reliably. The robot grip on the other hand cannot grab things that are too thick. So in order to have reliable grabbing an object is needed that is 2 - 3 cm wide, at least 10 cm tall, and preferrably soft in order to be easier to grab and be kinder to the grabbing servo. A styrofoam block has been used fairly sucessfully for this purpose.
+According to HC-SR04 specs it can detect objects between 40 m and 2 cm from the sensor. However, when the object becomes too thin it seems it will not register reliably. The robot grip on the other hand cannot grab things that are too thick. So in order to have reliable grabbing an object is needed that is 2 - 3 cm wide, at least 10 cm tall, and preferrably soft in order to be easier to grab and be kinder to the grabbing servo. A styrofoam block has so far been used fairly sucessfully for this purpose.
 
 
 # Changing parts
@@ -70,29 +73,33 @@ Before assembly, use some code to set an angle on the servo, perhaps in center. 
 
 
 
+
 # Missing features, hopes, ideas and random thoughts
+*Software:*
 * Lift and Tilt min and max values depends on the current values of Lift and Tilt. Method could be added to calculate dynamic min and max values
-* The automatic grabbing module should be integrated with the rest of the automatic mode.
-* Measuring dimensions of objects to estimate their grabbability(?).
-* Wheels. We need wheels. Got them! just need to assemble.
-* Attacing a camera instead of the ultrasonic module may improve the detection capability greatly. 
+* Integrate driving with manual mode?
+* Measuring dimensions of objects to estimate their grabbability(?). Probably not doable with sonar, need laser or camera.
+* Currently we have a problem that the wifi randomly drops.
+* Add support for XBox 360 controller or similar?
 
-Another idea is to have two ultrasonic sensors for 3D vision. (well, it's really hard to actually get something 3Dish useful from these sonars.)
+*Structure:*
+* Powerbank, so it is possible to drive around unconstrained. Easiest should be a powerbank with two ports. Remember to check amp output: a setup with ~900mA to the pi and 1.2A to the Picon Zero is known to work.
+* Attach pi to wheel frame. This together with powerbank should grant full autonomy.
+* More appropriate fastening between arm and wheels. (Current setup is four picture hooks and three cable strips)
+* The current structure is pretty weak, so a better structure etc would be great. Also better servos (blue ones), or step motors!
+
+*Capabilities:*
+* Attacing a (3D) camera instead of the ultrasonic module will likely improve the detection capability greatly. 
+* Have two ultrasonic sensors for 3D vision. (well, it's really hard to actually get something 3Dish useful from these sonars.)
 Remeber, if using 2 sonars, you can't use them "at the same time" both recieve signal from each other. But one can switch left/right approx every 30-40 ms (Never ever go too short inbetween, it can couse lots of trouble.)
+* Upgrade to Raspberry pi 3
+* Add a camera module and deep learning (rasberry pi zero is not good enough to do this). Maybe even NVidia Jetson TX2?
 
+
+A case to get more cooler stuff could be to build the robot to be used at career fairs.
 
 Phase 2: object recognition and deep learning. Phase 3: human extinction.
-
-
-Upgrade to rasberry pi 3, add a camera module and use deeplearning (rasberry pi zero is not good enough to do this). or maybe even nvidia jetson tx2! 
-A case to get more cooler stuff could be to build the robot to be used at career fairs.
-The current structure is pretty weak, so a better structure etc would be great.
-A battery pack should also be needed so we dont have to keep it plugged in, the easiest should be
-to just get a powerbank with atleast 2 ports, remember to cheack the amps for the output, currently
-it's kinda on the edge with my power adaptor. 
-
-
-Currently we have a problem that the wifi randomly drops, maybe power issue?
+ 
 
 # Useful Links
 [Robot arm assembly instructions](http://www.instructables.com/id/MeArm-Robot-Arm-Your-Robot-V10/)
