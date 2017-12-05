@@ -9,13 +9,13 @@ ultrasonicInitialized = False;
 channels=[rotChannel,tiltChannel,liftChannel,gripChannel]
 limMax=[rotMax, tiltMax, liftMax, gripMax]
 limMin=[rotMin, tiltMin, liftMin, gripMin]
-positions=[rotInit,tiltInit,liftInit,gripInit]      # Position variable that the program operates on
-speeds=[rotSpeedInit,tiltSpeedInit,liftSpeedInit,gripSpeedInit]
+positions=[rotInit, tiltInit, liftInit, gripInit]      # Position variable that the program operates on
+speeds=[rotSpeedInit, tiltSpeedInit, liftSpeedInit, gripSpeedInit]
 
 #=====================================================================
 # Initializes the robot arm to it's start position
 def init():
-    print("Initialization started")
+    print "Initialization started"
     pz.init() # load servo operation library
 
     # Set output mode to Servo
@@ -27,7 +27,7 @@ def init():
     # Sets the robot to the initial position. 
     # Possible issue: rapid movement from the previous operation stop point.
     for i in channels:
-        pz.setOutput (i,positions[i])
+        pz.setOutput(i, positions[i])
         time.sleep(.5) # Sleep to reduce violent motions if arm is way off start target
     return 0
 #=====================================================================
@@ -62,13 +62,13 @@ def resetPosition():
 #=========================================================================================
 # Determines range to the nearest object, taking the mean value of several measurements
 def texasRanger():
-    i=0     # measurement counter
-    imax=5 # total measurement number
-    distances=[]
-    while i<imax:
+    i = 0     # measurement counter
+    imax = 5 # total measurement number
+    distances = []
+    while i < imax:
         distances.append(hcsr04.getDistance())
         time.sleep(0.05) # Sleep needed to allow pings from previous measurements to dissipate
-        i+=1
+        i += 1
     distances.sort()
     return distances[2]
 #=========================================================================================
@@ -77,16 +77,16 @@ def texasRanger():
 # A function to make roboArm operation movement smoother, please use for all servo operations
 # Will return False if angle exceeds maximum range or True when the servo has been moved
 def _smoothMotion(channel,stop):
-    if (stop>limMax[channel]) or (stop<limMin[channel]):
-        print ("Operational range exceeded")
+    if stop > limMax[channel] or stop < limMin[channel]:
+        print "Operational range exceeded"
         return False
-    while positions[channel]>stop:
-        positions[channel]-=1
-        pz.setOutput (channel, positions[channel])
+    while positions[channel] > stop:
+        positions[channel] -= 1
+        pz.setOutput(channel, positions[channel])
         time.sleep(speeds[channel])        # time.sleep(...) prevents rapid rotation
-    while positions[channel]<stop:
-        positions[channel]+=1
-        pz.setOutput (channel, positions[channel])
+    while positions[channel] < stop:
+        positions[channel] += 1
+        pz.setOutput(channel, positions[channel])
         time.sleep(speeds[channel])
     return True
 #=====================================================================
@@ -166,24 +166,24 @@ def getGrip():
 #=====================================================================
 # Sets rotation to number of degrees
 def setRotationSpeed(speed):
-    speeds[rotChannel]=speed
+    speeds[rotChannel] = speed
 #=====================================================================
 
 #=====================================================================
 # Sets tilt to number of degrees
 def setTiltSpeed(speed):
-    speeds[tiltChannel]=speed
+    speeds[tiltChannel] = speed
 #=====================================================================
 
 #=====================================================================
 # Sets lift to number of degrees
 def setLiftSpeed(speed):
-    speeds[liftChannel]=speed
+    speeds[liftChannel] = speed
 #=====================================================================
 
 #=====================================================================
 # Sets grip to number of degrees
 def setGripSpeed(speed):
-    speeds[gripChannel]=speed
+    speeds[gripChannel] = speed
 #=====================================================================
 

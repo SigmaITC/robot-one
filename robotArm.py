@@ -12,17 +12,17 @@ import robotController as rc
 # main loop
 rc.init()
 
-print("Main loop started")
+print "Main loop started"
 try:
-    print("Select operation mode: automatic (y) or manual (n)")
-    keyp=readkey()
-    if keyp=='n':
+    print "Select operation mode: automatic (y) or manual (n)"
+    keyp = readkey()
+    if keyp == 'n':
         manualMode()
-    elif keyp=='y':
+    elif keyp == 'y':
         automaticMode()
     else:
-        print("You are a smart one, aren't you?")
+        print "You are a smart one, aren't you?"
 except KeyboardInterrupt:
-    print()
+    print " "
 finally:    # sets the robot back to the initial position
     rc.shutdown()

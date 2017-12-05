@@ -11,14 +11,14 @@ from robotController import * # Hardware controller
 # Main loop for the manual operation via keyboard
 def manualMode():
 
-    print("Test the servos by using the following controls:")
-    print("Press W or S to move the arm forward or backward")
-    print("Press A or D to rotate the arm")
-    print("Press Q or E to move the arm up or down")
-    print("Press G or H to control the grip")
-    print("Press <space> key to centre")
-    print("Press Ctrl-C to end")
-    print()
+    print "Test the servos by using the following controls:"
+    print "Press W or S to move the arm forward or backward"
+    print "Press A or D to rotate the arm"
+    print "Press Q or E to move the arm up or down"
+    print "Press G or H to control the grip"
+    print "Press <space> key to centre"
+    print "Press Ctrl-C to end"
+    print " "
 
     manualSpeed = 5
     
@@ -68,35 +68,36 @@ def automaticMode():
     setGrip(gripMin)
     # end initialization
     
-    targetPos=[]    # Keeps track of detected target locations (robot arm position)
+    targetPos = []    # Keeps track of detected target locations (robot arm position)
 
     # scanning    
-    increment=10    # rotation and lift position increment for scanning
+    increment = 10    # rotation and lift position increment for scanning
     
-    liftRange=range(liftMax,liftMin,-increment)  # scanning range : lifting
-    rotRange=range(rotMin,rotMax,increment)
+    liftRange = range(liftMax,liftMin,-increment)  # scanning range : lifting
+    rotRange = range(rotMin,rotMax,increment)
     
     print "Scanning..."
     for liftPos in liftRange: # goes through the lifting range
         setLift(liftPos)
         for rotPos in rotRange: # goes through the rotation range
         
-            distance=texasRanger()
-            
-            if (distance<10):
+            distance = texasRanger()
+            if distance<10:
                 print "A target within range detected"
                 targetPos.append((
                     getRotation(), 
                     getLift(),
                     True)) # Within range
-            elif (distance<=20):
+            elif distance<=20:
                 print "A target out of range detected"
                 targetPos.append((
                     getRotation(),
                     getLift(),
                     False)) # Out of range
+
             setRotation(rotPos)
             time.sleep(.02)
+
         rotRange=rotRange[::-1]      # reverse scanning direction for rotation, makes the scanning continuous
     print "Scan finished."
     print " "
@@ -135,15 +136,13 @@ def grab():
     tiltVal = getTilt()
     tiltIncrease = 5
 
-    while (distance>gripDistance) and (tiltVal<tiltMax):
+    while distance > gripDistance and tiltVal < tiltMax:
         distance =texasRanger()        # distance in cm
-        
         tiltVal = min (tiltMax, tiltVal + tiltIncrease)    # moves closer, but within the operational limit
-        
         setTilt(tiltVal)
 
     if (distance>gripDistance):
-        print ("object unreachable")
+        print "object unreachable"
     else:       # grab and move if the object is withing grabbing distance
         setGrip(95) # Size of Object, change to not damage servo
         time.sleep(.5)
@@ -170,7 +169,7 @@ def findClosest():
             break
         time.sleep(.05)
         currentDistance = texasRanger()
-        if not currentDistance<12:
+        if not currentDistance < 12:
             break
         distances.append([getRotation(), currentDistance])
     # ------------------------
@@ -186,19 +185,19 @@ def findClosest():
             break
         time.sleep(.05)
         currentDistance = texasRanger()
-        if not currentDistance<12:
+        if not currentDistance < 12:
             break
         distances.append([getRotation(), currentDistance])
     # ------------------------
 
     bestIndex = 0
     ind=0
-    while ind <len(distances)-1:
-        if(distances[ind][1] < distances[bestIndex][1]):
+    while ind < len(distances) - 1:
+        if distances[ind][1] < distances[bestIndex][1]:
             bestIndex = ind
-        ind+=1
+        ind += 1
 
-    if len(distances)>0:
+    if len(distances) > 0:
         return distances[bestIndex][0]
     else:
         print "Target too far away"
@@ -257,7 +256,7 @@ def generateGrabSuggestions(positions, rotationRes, tiltRes):
             returnArray.append([
                 (groups[ind][0] + groups[ind][1])/2, 
                 (groups[ind][2] + groups[ind][3])/2])
-        ind+=1
+        ind += 1
     # ----------------------------------------
 
     return returnArray

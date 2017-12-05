@@ -7,17 +7,17 @@ liftChannel = 2 # right servo, moves the claw Up/Down
 gripChannel = 3 # head servo, Opens/Closes the grip
 
 # Operational angles of servos (between 0 and 180) limited by device geometry
-rotMin=0 
-rotMax=180
+rotMin = 0 
+rotMax = 180
 
-tiltMin=55
-tiltMax=140
+tiltMin = 55
+tiltMax = 140
 
-liftMin=0
-liftMax=45
+liftMin = 0
+liftMax = 45
 
-gripMin=0
-gripMax=110
+gripMin = 0
+gripMax = 110
 
 # Initial position of all servos before operation start
 rotInit = 90    # 90 degrees = center of servo operation range.
