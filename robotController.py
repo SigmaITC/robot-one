@@ -154,6 +154,10 @@ def setAll(rotation, tilt, lift, grip):
     # 1 degree, to give uniform servo speed.
     deltas = []
     iterations = int(max(diffs))
+
+    if iterations == 0: # No change needed
+        return True
+
     for i in channels:
         deltas.append((targetValues[i] - positions[i]) / iterations)
 
