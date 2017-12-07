@@ -37,6 +37,7 @@ def init():
 # Initializes the ultrasonic module
 def initUltrasonic():
     hcsr04.init()
+    global ultrasonicInitialized
     ultrasonicInitialized = True;
 #=====================================================================
 
