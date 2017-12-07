@@ -6,6 +6,7 @@ import piconzero as pz, time    # get the servo module
 from init import *   # hardware configuration
 from keyboardio import *   # Keyboard reader
 from robotController import * # Hardware controller
+from inverseKinematics import *
 
 #=================================================================
 # Main loop for the manual operation via keyboard
@@ -119,7 +120,7 @@ def automaticMode():
                 setLift(suggestions[int(keyp) - 1][1])
                 bestRotation=findClosest()
                 setRotation(bestRotation)
-                grab()
+                grabIK()
                 return 0
             else:
                 print "That was not a number between 1 and "+str(len(objects))
@@ -150,6 +151,27 @@ def grab():
         setTilt(tiltMin)
 
     setTiltSpeed(tiltSpeedInit)
+#==============================================================================
+
+#==============================================================================
+# Tries to grab the object in front of the arm
+# TODO: Move function somewhere else
+def grabIK():
+    distance = texasRanger()
+
+    currentState = getJointCoords()
+    currentCoords = currentState[2]
+    currentCoords[0] += distance - 1
+    angles = getAnglesForCoordinate(currentCoords[0], currentCoords[1])
+    couldReach = setAll(getRotation(), angles[0], angles[1], getGrip())
+
+    if not couldReach:
+        print "object unreachable"
+    else:       # grab and move if the object is withing grabbing distance
+        setGrip(95) # Size of Object, change to not damage servo
+        time.sleep(.5)
+        setLift(liftMin)
+        setTilt(tiltMin)
 #==============================================================================
 
 #==============================================================================

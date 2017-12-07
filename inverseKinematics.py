@@ -23,7 +23,7 @@ radToDeg = 180 / math.pi
 # Gets angles arm needs to be to reach coordinates
 def getAnglesForCoordinate(x, y):
     target = [x, y]
-    coords = _getJointCoords()
+    coords = getJointCoords()
 
     # ----- FABRIK -----
     diff = _magnitude(coords[len(coords) - 1], [x, y])
@@ -86,7 +86,7 @@ def _forward(target, coords):
 # 0 = base
 # 1 = elbow
 # 2 = grip
-def _getJointCoords():
+def getJointCoords():
     coords = []
 
     # Base joint
@@ -116,52 +116,52 @@ def _magnitude(point1, point2):
 #=================================================================
 
 
-init()
-try:
-    currentCoords = _getJointCoords()
-    print getAnglesForCoordinate(currentCoords[2][0], currentCoords[2][1])
+# init()
+# try:
+#     currentCoords = getJointCoords()
+#     print getAnglesForCoordinate(currentCoords[2][0], currentCoords[2][1])
 
-    manualSpeed = 5
-    coordSpeed = 2
+#     manualSpeed = 5
+#     coordSpeed = 2
 
-    angles = getAnglesForCoordinate(4, 4)
-    setLift(angles[1])
-    setTilt(angles[0])
+#     angles = getAnglesForCoordinate(4, 4)
+#     setLift(angles[1])
+#     setTilt(angles[0])
     
-    while True:
-        currentCoords = _getJointCoords()
-        keyp = readkey()
-        if keyp == 's' or ord(keyp) == 17:
-            angles = getAnglesForCoordinate(currentCoords[2][0]-coordSpeed, currentCoords[2][1])
-            setAll(getRotation(), angles[0], angles[1], getGrip())
-            print angles
-        elif keyp == 'w' or ord(keyp) == 16:
-            angles = getAnglesForCoordinate(currentCoords[2][0]+coordSpeed, currentCoords[2][1])
-            setAll(getRotation(), angles[0], angles[1], getGrip())
-            print angles
-        elif keyp == 'd' or ord(keyp) == 18:
-            rotate(-manualSpeed)
-            print('Right: ',getRotation())
-        elif keyp == 'a' or ord(keyp) == 19:
-            rotate(manualSpeed)
-            print('Left: ',getRotation())
-        elif keyp == 'q':
-            angles = getAnglesForCoordinate(currentCoords[2][0], currentCoords[2][1]+coordSpeed)
-            setAll(getRotation(), angles[0], angles[1], getGrip())
-            print angles
-        elif keyp == 'e':
-            angles = getAnglesForCoordinate(currentCoords[2][0], currentCoords[2][1]-coordSpeed)
-            setAll(getRotation(), angles[0], angles[1], getGrip())
-            print angles
-        elif keyp == 'g':
-            grip(-manualSpeed)
-            print('Open: ',getGrip())
-        elif keyp == 'h':
-            grip(manualSpeed)
-            print('Close: ',getGrip())
-        elif keyp == ' ':       # 'space' resets to the initial position
-            resetPosition()
-        elif ord(keyp) == 3:
-            break
-finally:
-    shutdown()
+#     while True:
+#         currentCoords = getJointCoords()
+#         keyp = readkey()
+#         if keyp == 's' or ord(keyp) == 17:
+#             angles = getAnglesForCoordinate(currentCoords[2][0]-coordSpeed, currentCoords[2][1])
+#             setAll(getRotation(), angles[0], angles[1], getGrip())
+#             print angles
+#         elif keyp == 'w' or ord(keyp) == 16:
+#             angles = getAnglesForCoordinate(currentCoords[2][0]+coordSpeed, currentCoords[2][1])
+#             setAll(getRotation(), angles[0], angles[1], getGrip())
+#             print angles
+#         elif keyp == 'd' or ord(keyp) == 18:
+#             rotate(-manualSpeed)
+#             print('Right: ',getRotation())
+#         elif keyp == 'a' or ord(keyp) == 19:
+#             rotate(manualSpeed)
+#             print('Left: ',getRotation())
+#         elif keyp == 'q':
+#             angles = getAnglesForCoordinate(currentCoords[2][0], currentCoords[2][1]+coordSpeed)
+#             setAll(getRotation(), angles[0], angles[1], getGrip())
+#             print angles
+#         elif keyp == 'e':
+#             angles = getAnglesForCoordinate(currentCoords[2][0], currentCoords[2][1]-coordSpeed)
+#             setAll(getRotation(), angles[0], angles[1], getGrip())
+#             print angles
+#         elif keyp == 'g':
+#             grip(-manualSpeed)
+#             print('Open: ',getGrip())
+#         elif keyp == 'h':
+#             grip(manualSpeed)
+#             print('Close: ',getGrip())
+#         elif keyp == ' ':       # 'space' resets to the initial position
+#             resetPosition()
+#         elif ord(keyp) == 3:
+#             break
+# finally:
+#     shutdown()
