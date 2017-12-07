@@ -4,19 +4,19 @@ The project helps to setup and use MeArm v1.0 robot controlled via Raspberry Pi 
 
 
 # Included files
-| File                | Description |
-| :------------------ | :---------- |
-| README.md	          | You are reading it right now. Busted! |
-| init.py             | Contains operational angles of RobotArm limited by the hardware setup. |
-| robotArm.py         | Main project file. Run it to get your robotic arm swinging. |
-| operationModes.py   | Contains modules for manual and automatic operation of RobotArm. |
-| grab.py             | A stand-alone grabbing module for the ultrasonic sensor |
-| robotController.py  | The robot controlling interface |
-| keyboardio.py       | Contains functions for keyboard I/O |
-| motorTest           | Simple test for driving the wheels |
-| wpa_supplicant.conf | Local WiFi info. DO NOT SHARE. |
-| *piconzero.py*      | External file commited for simplicity |
-| *hcsr04.py*         | External file commited for simplicity |
+| File                 | Description |
+| :------------------- | :---------- |
+| README.md            | You are reading it right now. Busted! |
+| init.py              | Contains operational angles of RobotArm limited by the hardware setup. |
+| robotArm.py          | Main project file. Run it to get your robotic arm swinging. |
+| operationModes.py    | Contains modules for manual and automatic operation of RobotArm. |
+| robotController.py   | The robot controlling interface |
+| keyboardio.py        | Contains functions for keyboard I/O |
+| motorTest.py         | Simple test for driving the wheels |
+| inverseKinematics.py | Module for finding angles based on coordinates |
+| wpa_supplicant.conf  | Local WiFi info. DO NOT SHARE. |
+| *piconzero.py*       | External file commited for simplicity |
+| *hcsr04.py*          | External file commited for simplicity |
 
 	
 # Features
