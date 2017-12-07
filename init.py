@@ -25,7 +25,5 @@ tiltInit = 70
 liftInit = 20
 gripInit = gripMin
 
-rotSpeedInit = 0.02
-tiltSpeedInit = 0.02
-liftSpeedInit = 0.02
-gripSpeedInit = 0.02
+speedInit = 0.01
+

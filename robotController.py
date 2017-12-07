@@ -11,7 +11,7 @@ channels=[rotChannel,tiltChannel,liftChannel,gripChannel]
 limMax=[rotMax, tiltMax, liftMax, gripMax]
 limMin=[rotMin, tiltMin, liftMin, gripMin]
 positions=[rotInit, tiltInit, liftInit, gripInit]      # Position variable that the program operates on
-speeds=[rotSpeedInit, tiltSpeedInit, liftSpeedInit, gripSpeedInit]
+speed=speedInit
 
 #=====================================================================
 # Initializes the robot arm to it's start position
@@ -86,7 +86,7 @@ def _smoothMotion(channel,stop):
         diff = stop - positions[channel]
         positions[channel] += math.copysign(min(1, abs(diff)), diff)
         pz.setOutput(channel, int(positions[channel]))
-        time.sleep(speeds[channel])
+        time.sleep(speed)
     return True
 #=====================================================================
 
@@ -150,8 +150,9 @@ def setAll(rotation, tilt, lift, grip):
         else:
             diffs.append(abs(targetValues[i] - positions[i]))
 
+    # Number of iterations set so that max change per iteration is
+    # 1 degree, to give uniform servo speed.
     deltas = []
-
     iterations = int(max(diffs))
     for i in channels:
         deltas.append((targetValues[i] - positions[i]) / iterations)
@@ -161,7 +162,7 @@ def setAll(rotation, tilt, lift, grip):
             if positions[i] != targetValues[i]:
                 positions[i] += deltas[i]
                 pz.setOutput(i, int(positions[i]))
-        time.sleep(speeds[0])
+        time.sleep(speed)
     return True
 
 #=====================================================================
@@ -191,26 +192,10 @@ def getGrip():
 #=====================================================================
 
 #=====================================================================
-# Sets rotation to number of degrees
-def setRotationSpeed(speed):
-    speeds[rotChannel] = speed
+# Sets servo speed
+def setSpeed(newSpeed):
+    global speed
+    speed = newSpeed
 #=====================================================================
 
-#=====================================================================
-# Sets tilt to number of degrees
-def setTiltSpeed(speed):
-    speeds[tiltChannel] = speed
-#=====================================================================
-
-#=====================================================================
-# Sets lift to number of degrees
-def setLiftSpeed(speed):
-    speeds[liftChannel] = speed
-#=====================================================================
-
-#=====================================================================
-# Sets grip to number of degrees
-def setGripSpeed(speed):
-    speeds[gripChannel] = speed
-#=====================================================================
 
