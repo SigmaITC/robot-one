@@ -1,4 +1,5 @@
 import piconzero as pz, time    # get the servo module
+import math
 
 from init import *   # hardware configuration
 
@@ -80,13 +81,11 @@ def _smoothMotion(channel,stop):
     if stop > limMax[channel] or stop < limMin[channel]:
         print "Operational range exceeded"
         return False
-    while positions[channel] > stop:
-        positions[channel] -= 1
-        pz.setOutput(channel, positions[channel])
-        time.sleep(speeds[channel])        # time.sleep(...) prevents rapid rotation
-    while positions[channel] < stop:
-        positions[channel] += 1
-        pz.setOutput(channel, positions[channel])
+
+    while positions[channel] != stop:
+        diff = stop - positions[channel]
+        positions[channel] += math.copysign(min(1, abs(diff)), diff)
+        pz.setOutput(channel, int(positions[channel]))
         time.sleep(speeds[channel])
     return True
 #=====================================================================
@@ -148,8 +147,18 @@ def setAll(rotation, tilt, lift, grip):
             print "Operational range exceeded"
             return False
 
+    deltas = []
+
+    iterations = 10
     for i in channels:
-        _smoothMotion(i, targetValues[i])
+        deltas.append((targetValues[i] - positions[i]) / iterations)
+
+    for x in range(0, iterations):
+        for i in channels:
+            if positions[i] != targetValues[i]:
+                positions[i] += deltas[i]
+                pz.setOutput(i, int(positions[i]))
+        time.sleep(speeds[0])
     return True
 
 #=====================================================================
