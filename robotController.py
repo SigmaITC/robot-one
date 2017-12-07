@@ -140,6 +140,21 @@ def setGrip(angle):
 #=====================================================================
 
 #=====================================================================
+# Sets all to number of degrees
+def setAll(rotation, tilt, lift, grip):
+    targetValues = [rotation, tilt, lift, grip]
+    for i in channels:
+        if targetValues[i] > limMax[i] or targetValues[i] < limMin[i]:
+            print "Operational range exceeded"
+            return False
+
+    for i in channels:
+        _smoothMotion(i, targetValues[i])
+    return True
+
+#=====================================================================
+
+#=====================================================================
 # Gets rotation to number of degrees
 def getRotation():
     return positions[rotChannel]
