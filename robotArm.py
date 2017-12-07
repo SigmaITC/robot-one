@@ -1,10 +1,5 @@
-# yevgeniy.korniyenko@sigma.se, henrik.svensson@sigma.se and simon.ivarsson@sigma.se
-# Picon Zero Servo Test
-# Use arrow keys to move servos on outputs 0,1 for Pan and Tilt
-# Use Q and E to lift up and down
-# Use G and H to open and close the Gripper arm
-# Press Ctrl-C to stop
-#
+# Authors: yevgeniy.korniyenko@sigma.se, henrik.svensson@sigma.se and simon.ivarsson@sigma.se
+# Main module of the robot arm
 
 from operationModes import *
 import robotController as rc 
