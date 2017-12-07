@@ -161,7 +161,7 @@ def grabIK():
 
     currentState = getJointCoords()
     currentCoords = currentState[2]
-    currentCoords[0] += distance - 1
+    currentCoords[0] += distance - 0.5
     angles = getAnglesForCoordinate(currentCoords[0], currentCoords[1])
     couldReach = setAll(getRotation(), angles[0], angles[1], getGrip())
 
