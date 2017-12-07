@@ -10,6 +10,7 @@ The project helps to setup and use MeArm v1.0 robot controlled via Raspberry Pi 
 | init.py              | Contains operational angles of RobotArm limited by the hardware setup. |
 | robotArm.py          | Main project file. Run it to get your robotic arm swinging. |
 | operationModes.py    | Contains modules for manual and automatic operation of RobotArm. |
+| behaviours.py        | Standalone module with anthropomorphic behaviours |
 | robotController.py   | The robot controlling interface |
 | keyboardio.py        | Contains functions for keyboard I/O |
 | motorTest.py         | Simple test for driving the wheels |
@@ -25,6 +26,7 @@ The project helps to setup and use MeArm v1.0 robot controlled via Raspberry Pi 
 * It can detect things via an ultrasonic sensor in the automatic mode.
 * It can grab things, watch your back!
 * It can drive around, noisily.
+* It can be shy, or threatening!
 
 
 # Installation
@@ -62,6 +64,8 @@ Never move parts by hand, this will damage the servos!
 
 The grip does not have a spring or sensor to detect if it has grabbed something, so make sure to configure grip angle to fit the object you're trying to grab.
 
+behaviours.py is another module that can be run as-is, and features some anthropomorphic behaviours.
+
 # HC-SR04 limitations and grabbability
 According to HC-SR04 specs it can detect objects between 40 m and 2 cm from the sensor. However, when the object becomes too thin it seems it will not register reliably. The robot grip on the other hand cannot grab things that are too thick. So in order to have reliable grabbing an object is needed that is 2 - 3 cm wide, at least 10 cm tall, and preferrably soft in order to be easier to grab and be kinder to the grabbing servo. A styrofoam block has so far been used fairly sucessfully for this purpose.
 
@@ -77,7 +81,7 @@ Before assembly, use some code to set an angle on the servo, perhaps in center. 
 # Missing features, hopes, ideas and random thoughts
 *Software:*
 * Lift and Tilt min and max values depends on the current values of Lift and Tilt. Method could be added to calculate dynamic min and max values
-* Integrate driving with manual mode?
+* Integrate driving with other mode?
 * Measuring dimensions of objects to estimate their grabbability(?). Probably not doable with sonar, need laser or camera.
 * Currently we have a problem that the wifi randomly drops.
 * Add support for XBox 360 controller or similar?
