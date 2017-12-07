@@ -142,14 +142,17 @@ def setGrip(angle):
 # Sets all to number of degrees
 def setAll(rotation, tilt, lift, grip):
     targetValues = [rotation, tilt, lift, grip]
+    diffs = []
     for i in channels:
         if targetValues[i] > limMax[i] or targetValues[i] < limMin[i]:
             print "Operational range exceeded"
             return False
+        else:
+            diffs.append(abs(targetValues[i] - positions[i]))
 
     deltas = []
 
-    iterations = 10
+    iterations = int(max(diffs))
     for i in channels:
         deltas.append((targetValues[i] - positions[i]) / iterations)
 
