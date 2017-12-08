@@ -87,6 +87,7 @@ Before assembly, use some code to set an angle on the servo, perhaps in center. 
 * Measuring dimensions of objects to estimate their grabbability(?). Probably not doable with sonar, need laser or camera.
 * Currently we have a problem that the wifi randomly drops.
 * Add support for XBox 360 controller or similar?
+* Controlled by phone?
 
 *Structure:*
 * Powerbank, so it is possible to drive around unconstrained. Easiest should be a powerbank with two ports. Remember to check amp output: a setup with ~900mA to the pi and 1.2A to the Picon Zero is known to work.
