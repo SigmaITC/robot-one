@@ -104,6 +104,8 @@ def automaticMode():
     print "Scan finished."
     print " "
     
+    resetPosition()
+
     suggestions = generateGrabSuggestions(targetPos, increment, increment)
 
     if len(suggestions) == 0:
