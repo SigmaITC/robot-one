@@ -60,6 +60,8 @@ Run robotArm.py and follow the on-screen instructions.
 
 Rember that when you run it it will instanly go to it's start positon (which most likily is not the same as you have it now), if it's blocked in any way it may break!
 
+**Servo panic:** if you accidentally set a servo to a position where it cannot go, and you cannot undo it quickly through whichever way you're controlling it: **yank the wire to the Raspberry Pi**, and not the Picon Zero. Most likely it will be easier to do that at the power source and not the Pi itself, since it is a bit fiddlier to get the plug out of the Pi. 
+
 Never move parts by hand, this will damage the servos!
 
 The grip does not have a spring or sensor to detect if it has grabbed something, so make sure to configure grip angle to fit the object you're trying to grab.
