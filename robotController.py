@@ -28,7 +28,7 @@ def init():
     # Sets the robot to the initial position. 
     # Possible issue: rapid movement from the previous operation stop point.
     for i in channels:
-        pz.setOutput(i, positions[i])
+        _safeSetAngle(i, positions[i])
         time.sleep(.5) # Sleep to reduce violent motions if arm is way off start target
     return 0
 #=====================================================================
@@ -75,19 +75,36 @@ def texasRanger():
     return distances[2]
 #=========================================================================================
 
-#======================================================================
+#=====================================================================
 # A function to make roboArm operation movement smoother, please use for all servo operations
 # Will return False if angle exceeds maximum range or True when the servo has been moved
 def _smoothMotion(channel,stop):
-    if stop > limMax[channel] or stop < limMin[channel]:
+    if not _canSetAngle(channel, stop):
         print "Operational range exceeded"
         return False
 
     while positions[channel] != stop:
         diff = stop - positions[channel]
         positions[channel] += math.copysign(min(1, abs(diff)), diff)
-        pz.setOutput(channel, int(positions[channel]))
+        _safeSetAngle(channel, int(positions[channel]))
         time.sleep(speed)
+    return True
+#=====================================================================
+
+#=====================================================================
+# Set servo with limit check
+def _safeSetAngle(channel, angle):
+    if _canSetAngle(channel, angle):
+        pz.setOutput(channel, angle)
+        return True
+    return False
+#=====================================================================
+
+#=====================================================================
+# Returns true if angle is valid for channel
+def _canSetAngle(channel, angle):
+    if angle > limMax[channel] or angle < limMin[channel]:
+        return False
     return True
 #=====================================================================
 
@@ -145,7 +162,7 @@ def setAll(rotation, tilt, lift, grip):
     targetValues = [rotation, tilt, lift, grip]
     diffs = []
     for i in channels:
-        if targetValues[i] > limMax[i] or targetValues[i] < limMin[i]:
+        if not _canSetAngle(i, targetValues[i]):
             print "Operational range exceeded"
             return False
         else:
@@ -166,7 +183,7 @@ def setAll(rotation, tilt, lift, grip):
         for i in channels:
             if positions[i] != targetValues[i]:
                 positions[i] += deltas[i]
-                pz.setOutput(i, int(positions[i]))
+                _safeSetAngle(i, int(positions[i]))
         time.sleep(speed)
     return True
 
