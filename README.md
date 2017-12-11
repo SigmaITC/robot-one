@@ -90,9 +90,7 @@ Before assembly, use some code to set an angle on the servo, perhaps in center. 
 * Controlled by phone?
 
 *Structure:*
-* Powerbank, so it is possible to drive around unconstrained. Easiest should be a powerbank with two ports. Remember to check amp output: a setup with ~900mA to the pi and 1.2A to the Picon Zero is known to work.
-* Attach pi to wheel frame. This together with powerbank should grant full autonomy.
-* More appropriate fastening between arm and wheels. (Current setup is four picture hooks and three cable strips)
+* Powerbank, bigger wheel platform and a box of assorted sensors has been ordered. It only needs to be assembled.
 * The current structure is pretty weak, so a better structure etc would be great. Also better servos (blue ones), or step motors!
 
 *Capabilities:*
